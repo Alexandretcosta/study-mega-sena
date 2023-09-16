@@ -13,6 +13,20 @@ odds_mega_senna <- function(n = 6, k = 6){
   }else{print("k is bigger then n")}
 }
 
+## Table With Results
+
+table_odds <- function(){
+  ods <- data.frame(matrix(rep(0,45),ncol = 3))
+  colnames(ods) <- c('Quatro','Cinco','Seis')
+  row.names(ods) <- 6:20
+  for(j in 6:20){
+    aux <- c(odds_mega_senna(j,4),odds_mega_senna(j,5),odds_mega_senna(j,6))
+    ods[j-5,] <- aux
+  }
+  return(ods)
+}
+
+table_odds()
 ## Experiment with Monte Carlo
 
 experiment <- function(number_of_types = 6,number_of_bets = 10){

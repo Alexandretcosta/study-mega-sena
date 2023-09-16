@@ -104,7 +104,8 @@ ui <- pageWithSidebar(
                          p("- De acertar a quadra (quatro números na cartela): 1 chance em 2332 ou 0,04%"),
                          p("- De ganhar na quinta (cinco números): 1 chance em 154.518 ou 0,0006%"),
                          p("- De ganhar o prêmio máximo (seis números): 1 chance em 50.063.860 ou 0,000002%"),
-                         p("Mas essas chances podem aumentar se você jogar mais de 6 números. Caso você aumente o número de jogos em mais de 6 números, suas chances são as seguintes:")
+                         p("Mas essas chances podem aumentar se você jogar mais de 6 números. Caso você aumente o número de jogos em mais de 6 números, suas chances são as seguintes:"),
+                         tableOutput("Table_odds")
                 )
                 
                 
@@ -125,13 +126,16 @@ server <- function(input, output) {
                          input$bet_18, input$bet_19, input$bet_20) 
     experiment(number_of_types = vector_types,
                number_of_bets = number_of_games)
+    
   })
   
   
-  output$MaximumMoneyLoss_describe1 <- renderTable({
-    t(data.frame(unclass(summary(d()[['df']]$MaximumMoneyLoss)), 
-                 check.names = FALSE, stringsAsFactors = FALSE))
-    
+  dd <- reactive({
+    table_odds()
+  })
+  
+  output$Table_odds <- renderTable({
+    dd()
   })
   
   
