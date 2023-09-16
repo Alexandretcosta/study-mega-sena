@@ -34,15 +34,16 @@ experiment <- function(number_of_types = 6,number_of_bets = 10){
       my_bets[[id]] <- sample(1:60,size = type, replace = FALSE)
       numbers_rights[[id]] <- sum(my_bets[[id]] %in% results)
 
-    if(i == number_of_bets[k])
+    if(i == number_of_bets[k] | number_of_bets[k] == 0)
       break
     }
   }
   
   numbers_rights <- unlist(numbers_rights)
-  my_bet <- sample(1:60,size = n, replace = FALSE)
   return(list(results,my_bets,numbers_rights))
 }
+
+
 
 ## Monte Carlo with Mega Sena
 
