@@ -1,3 +1,4 @@
+setwd('C:\\Users\\Alexandre\\Documents\\github\\study-mega-sena')
 library(packHV)
 library(shiny)
 source('functions_probs.R')
@@ -113,7 +114,7 @@ ui <- pageWithSidebar(
     
    )
   )
-)
+
 
 # Define server logic for random distribution app ----
 server <- function(input, output) {
@@ -132,6 +133,14 @@ server <- function(input, output) {
   
   dd <- reactive({
     table_odds()
+  })
+  
+  ddd <- reactive({
+    price <- c(5,35,140,420,1050,2310,4620,8580,15015,25025,40040,61880,92820,135660,193800)
+    number_of_games <- c(input$bet_6, input$bet_7, input$bet_8, input$bet_9, input$bet_10, input$bet_11, 
+                         input$bet_12, input$bet_13, input$bet_14, input$bet_15, input$bet_16, input$bet_17, 
+                         input$bet_18, input$bet_19, input$bet_20) 
+    round(sum(price*number_of_games),2)
   })
   
   output$Table_odds <- renderTable({

@@ -1,6 +1,6 @@
 
 ## Get Results
-odds_mega_senna <- function(n = 6, k = 6){
+odds_mega_senna <- function(n = 6, k = 6, chance = T){
   
   #Total of Possible Combination
   N_combination = choose(n = 60, k = 6)
@@ -8,8 +8,10 @@ odds_mega_senna <- function(n = 6, k = 6){
   if(n >= k & n >= 6){
   opt = choose(n = n, k = k)*choose(n = 60-n, k = 6-k)
   odds = round(N_combination/opt, 0)
-  prob = round(opt/N_combination, 4)
+  prob = round(opt/N_combination, 10)
+  if(chance){
   return(odds)
+    }else{return(prob)}
   }else{print("k is bigger then n")}
 }
 
@@ -75,3 +77,28 @@ mc_mega <- function(M = 10,types = 6,bets = 10){
   
   return(list(mc_4,mc_5,mc_6))
 }
+
+## Variation of Price in The Games
+
+price <- c(5,35,140,420,1050,2310,4620,8580,15015,25025,40040,61880,92820,135660,193800)
+odds_6 <- rep(0,length(6:20)); for(i in 6:20){odds_6[i-5] <- odds_mega_senna(i, chance = FALSE)}
+odds_5 <- rep(0,length(6:20)); for(i in 6:20){odds_5[i-5] <- odds_mega_senna(i, k = 5, chance = FALSE)}
+odds_4 <- rep(0,length(6:20)); for(i in 6:20){odds_4[i-5] <- odds_mega_senna(i, k = 4, chance = FALSE)}
+
+variation_between_elements <- function(vetor){
+  
+  razao <- rep(0, length(vetor)-1)
+  for(i in 1:(length(vetor)-1)){
+    razao[i] <- round(vetor[i+1]/vetor[i],2)
+  }
+  return(razao)
+}
+
+## 140/5
+data_variation <- data.frame(Preco = variation_between_elements(price),
+           Odds_6 = variation_between_elements(odds_6),
+           Odds_5 = variation_between_elements(odds_5),
+           Odds_4 = variation_between_elements(odds_4),
+           Odds_Acumulada = cumprod(variation_between_elements(odds_6)))
+row.names(data_variation) <- 7:20
+data_variation
